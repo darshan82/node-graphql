@@ -25,8 +25,6 @@ module.exports = {
     const { email, password } = args;
     let User = await UserModel.findOne({ email: email });
     if (!User) throw new Error("User does not exist");
-    console.log("aa", User);
-    console.log("aa", password);
 
     let isPasswordEqual = await bcryptjs.compare(password, User.password);
     if (!isPasswordEqual) throw new Error("Password is incorrect");

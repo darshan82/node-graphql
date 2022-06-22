@@ -1,13 +1,10 @@
 const { dateToString } = require("../../helpers/date");
 const EventModel = require("../../models/events");
 const UserModel = require("../.././models/users");
-
 const { user, transformEvent } = require("./merge");
-
 module.exports = {
   events: async () => {
     try {
-      console.log("mama");
       const results = await EventModel.find();
       let events = results.map((val) => {
         return transformEvent(val);

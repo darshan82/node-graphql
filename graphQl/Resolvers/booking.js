@@ -14,7 +14,6 @@ module.exports = {
         throw new Error("you must be authenticated");
       }
       let event = await EventModel.findOne({ _id: args.eventId });
-      console.log("event", event);
       const booking = new BookingModel({
         user: req.userId,
         event: event,
@@ -34,7 +33,6 @@ module.exports = {
         _id: args.booking,
       }).populate("event");
       let event = transformEvent(booking.event);
-      console.log(event);
       await BookingModel.deleteOne({ _id: args.booking });
       return event;
     } catch (err) {
