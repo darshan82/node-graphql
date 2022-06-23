@@ -17,14 +17,26 @@ const Form = (props) => {
       let passwordTemp = password.current.value;
 
       let requestBody = {
-        "query": `mutation{createUser(userInput:{email:"${emailTemp}",password:"${passwordTemp}"}){_id email}}`,
+        query: `mutation{createUser(userInput:{email:"${emailTemp}",password:"${passwordTemp}"}){_id email}}`,
       };
 
       fetch("http://localhost:3000/graphql", {
         method: "POST",
         body: JSON.stringify(requestBody),
         headers: { "Content-Type": "application/json" },
-      });
+      })
+        .then((res) => {
+          if (res.status !== 200 && res.status !== 201) {
+            throw new Error("FAILED");
+          }
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
   const email = createRef();
@@ -32,15 +44,32 @@ const Form = (props) => {
 
   const onSignIn = (e) => {
     e.preventDefault();
-    console.log(email.current.value);
-    if (email.current.value && password.current.value)
+    if (email.current.value && password.current.value) {
+      let emailTemp = email.current.value;
+      let passwordTemp = password.current.value;
+
+      let requestBody = {
+        query: `query{login(email:"${emailTemp}",password:"${passwordTemp}"){userId token tokenExpiration}}`,
+      };
+
       fetch("http://localhost:3000/graphql", {
         method: "POST",
+        body: JSON.stringify(requestBody),
         headers: { "Content-Type": "application/json" },
-        body: {
-          first_name: this.firstName.value,
-        },
-      });
+      })
+        .then((res) => {
+          if (res.status !== 200 && res.status !== 201) {
+            throw new Error("FAILED");
+          }
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
   return (
     <div className="Auth-form-container">
