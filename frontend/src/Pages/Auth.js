@@ -1,9 +1,10 @@
 import React from "react";
+import AuthForm from "./Form";
 
 const Auth = () => {
   return (
     <>
-      <h1>Hello auth</h1>
+      <AuthForm />
     </>
   );
 };

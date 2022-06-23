@@ -8,14 +8,32 @@ const Resolvers = require("./graphQl/Resolvers");
 const app = express();
 
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+  // Website you wish to allow to connect
 
-app.use(isAuth);    
+  console.log("mamu", req.body);
+  res.setHeader("Access-Control-Allow-Origin", "*");
+
+  // Request methods you wish to allow
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+
+  // Request headers you wish to allow
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  // Pass to next layer of middleware
+  next();
+});
+app.use(isAuth);
 app.use(
-  "/api",
+  "/graphql",
   graphqlHTTP({
     schema: Schema,
     rootValue: Resolvers,
     graphiql: true,
+    pretty: true,
   })
 );
 
