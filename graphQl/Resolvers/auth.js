@@ -21,28 +21,34 @@ module.exports = {
       throw err;
     }
   },
-  login: async (args) => {
+  login: async (args, req, res) => {
     const { email, password } = args;
-    let User = await UserModel.findOne({ email: email });
-    if (!User) throw new Error("User does not exist");
-
-    let isPasswordEqual = await bcryptjs.compare(password, User.password);
-    if (!isPasswordEqual) throw new Error("Password is incorrect");
-
-    let token = jsonwebtoken.sign(
-      {
-        userId: User._id,
-        email: User.email,
-      },
-      "supersecretkey",
-      {
-        expiresIn: "1h",
+    try {
+      let User = await UserModel.findOne({ email: email });
+      if (!User) {
+        throw new Error("User does not exist");
       }
-    );
-    return {
-      token,
-      tokenExpiration: 2,
-      userId: User._id,
-    };
+
+      let isPasswordEqual = await bcryptjs.compare(password, User.password);
+      if (!isPasswordEqual) throw new Error("Password is incorrect");
+
+      let token = jsonwebtoken.sign(
+        {
+          userId: User._id,
+          email: User.email,
+        },
+        "supersecretkey",
+        {
+          expiresIn: "1h",
+        }
+      );
+      return {
+        token,
+        tokenExpiration: 2,
+        userId: User._id,
+      };
+    } catch (err) {
+      throw err;
+    }
   },
 };

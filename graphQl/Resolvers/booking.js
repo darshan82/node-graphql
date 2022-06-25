@@ -39,9 +39,9 @@ module.exports = {
       throw err;
     }
   },
-  bookings: async (args) => {
+  bookings: async (args, req) => {
     try {
-      let booking = await BookingModel.find();
+      let booking = await BookingModel.find({ _id: req.userId });
       if (booking) return booking.map(async (val) => transformBooking(val));
     } catch (err) {
       throw err;
