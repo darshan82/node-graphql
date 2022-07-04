@@ -7,6 +7,7 @@ module.exports = {
     try {
       const results = await EventModel.find();
       let events = results.map((val) => {
+        console.log("val",val)
         return transformEvent(val);
       });
       return events;

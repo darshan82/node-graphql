@@ -11,7 +11,6 @@ app.use(bodyParser.json());
 app.use((req, res, next) => {
   // Website you wish to allow to connect
 
-  console.log("mamu", req.body);
   res.setHeader("Access-Control-Allow-Origin", "*");
 
   // Request methods you wish to allow

@@ -57,7 +57,7 @@ const transformEvent = (val) => {
     ...val._doc,
     _id: val.id,
     creator: user(val._doc.creator),
-    date: new Date(val._doc.date),
+    date: val._doc.date,
   };
 };
 
