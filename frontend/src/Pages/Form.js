@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-
+import { useSelector, useDispatch } from "react-redux";
+import { setChangeEmail } from "../redux/action";
 const OnBoarding = () => {
   let [authMode, setAuthMode] = useState("signin");
 
   const changeAuthMode = () => {
     setAuthMode(authMode === "signin" ? "signup" : "signin");
   };
-
+  const EMAIL = useSelector((state) => state.AuthReducer.email);
+  console.log("EMAIL", EMAIL);
+  const dispatch = useDispatch();
   const onSubmit = (e) => {
     e.preventDefault();
     const {
@@ -56,6 +59,9 @@ const OnBoarding = () => {
               className="form-control mt-1"
               placeholder="Enter email"
               id="email"
+              onChange={(e) => {
+                dispatch(setChangeEmail(e.target.value));
+              }}
               required
             />
           </div>
