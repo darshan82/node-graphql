@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import AuthorizedPages from "./Pages/AuthorizedPages";
 import Auth from "./Pages/Auth";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 function App() {
   return (
     <BrowserRouter>

@@ -1,14 +1,25 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setChangeEmail } from "../redux/action";
+import { observer } from "mobx-react-lite";
+import FormStore from "./FormMobx";
+let store=new FormStore()
+
 const OnBoarding = () => {
+  console.log("DARSHAN", store?.emailMobx);
+  console.log("DARSHAN LENGTH", store?.emailLength);
+
   let [authMode, setAuthMode] = useState("signin");
 
   const changeAuthMode = () => {
     setAuthMode(authMode === "signin" ? "signup" : "signin");
   };
+  // auto run example
+  useEffect(() => {
+   console.log("change email called")
+  }, [store.emailMobx]);
+  //
   const EMAIL = useSelector((state) => state.AuthReducer.email);
-  console.log("EMAIL", EMAIL);
   const dispatch = useDispatch();
   const onSubmit = (e) => {
     e.preventDefault();
@@ -60,7 +71,7 @@ const OnBoarding = () => {
               placeholder="Enter email"
               id="email"
               onChange={(e) => {
-                dispatch(setChangeEmail(e.target.value));
+                store.changeEmail(e.target.value);
               }}
               required
             />
@@ -85,4 +96,4 @@ const OnBoarding = () => {
     </div>
   );
 };
-export default OnBoarding;
+export default observer(OnBoarding);
